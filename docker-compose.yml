@@ -1,0 +1,28 @@
+version: "3.9"
+services: 
+  sosmed:
+    image: sosmed
+    ports:
+      - 81:80
+    environment:
+      host: "db"
+      user: "dzikri"
+      pass: "1234"
+      name: "sosmed_db"
+    depends_on:
+      - db
+  db:
+    image: mysql:latest
+    container_name: db-sosmed
+    environment:
+      MYSQL_HOST: "sosmed"
+      MYSQL_ROOT_PASSWORD: "dzikri" 
+      MYSQL_USER: "dzikri"
+      MYSQL_PASSWORD: "1234"
+      MYSQL_DATABASE: "sosmed_db"
+
+    volumes:
+       - ./dump.sql:/docker-entrypoint-initdb.d/dump.sql
+    ports:
+      - '3306:3306'
+  
